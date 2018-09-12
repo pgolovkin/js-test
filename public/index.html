@@ -11,19 +11,48 @@ class FooBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      text: ''
+      loaded: false,
+      text: '',
+      error: undefined
     };
+    this.fooBarClick = this.fooBarClick.bind(this);
   }
 
-  componentDidMount() {
-    console.log('component was mount');
+  fooBarClick() {
+    fetch("http://localhost:8080/api")
+      .then(response => response.json())
+      .then(
+        (json) => {
+          this.setState({
+            text: JSON.stringify(json),
+            loaded: true
+          });
+        },
+        (error) => {
+          this.setState({
+            loaded: true,
+            error: error.message
+          });
+        }
+      );
   }
 
   render() {
-    const text = this.state.text;
-    return <div><Button /> <LabelText text= {text} /></div>
-  }
+    const {text, loaded, error} = this.state;
+    if (!loaded) {
+      return <div><Button onClick={this.fooBarClick} /> </div>
+   } else if (!error) {
+     return <div>
+       <Button onClick={this.fooBarClick} />
+       <LabelText text= {text} />
+     </div>
+   } else {
+     return <div>
+       <Button onClick={this.fooBarClick} />
+       <LabelText text= {error} />
+     </div>
+   }
+ }
 }
 
 const Button = ({onClick = f => f}) => {
@@ -33,7 +62,7 @@ const Button = ({onClick = f => f}) => {
 const LabelText = ({text}) => {
   return <div>{text}</div>
 }
-console.log('2');
+
 ReactDOM.render(<FooBar />,  document.getElementById("root"));
 </script>
 

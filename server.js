@@ -11,7 +11,7 @@ server.route({
     method: "GET",
     path: "/api",
     handler: (request, h) => {
-        return "{'text': 'foo'}";
+        return '{"text": "foo"}';
     }
 })
 
