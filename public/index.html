@@ -1,0 +1,41 @@
+<html>
+<body>
+
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+<div id="root"></div>
+
+<script type="text/babel">
+class FooBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      text: ''
+    };
+  }
+
+  componentDidMount() {
+    console.log('component was mount');
+  }
+
+  render() {
+    const text = this.state.text;
+    return <div><Button /> <LabelText text= {text} /></div>
+  }
+}
+
+const Button = ({onClick = f => f}) => {
+  return <div><button onClick = {onClick}>Click</button></div>
+}
+
+const LabelText = ({text}) => {
+  return <div>{text}</div>
+}
+console.log('2');
+ReactDOM.render(<FooBar />,  document.getElementById("root"));
+</script>
+
+</body>
+</html>
